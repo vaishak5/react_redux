@@ -77,7 +77,7 @@ const ViewProduct = () => {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
             >
               Back To Home Page
             </button>

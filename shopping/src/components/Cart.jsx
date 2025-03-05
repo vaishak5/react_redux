@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
@@ -59,7 +58,7 @@ const Cart = () => {
     localStorage.setItem("cartSet", JSON.stringify(updatedCart));
   };
   const handleBack = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -78,7 +77,7 @@ const Cart = () => {
             <div
               key={product.id}
               style={{
-                border: "1px solid #ddd",
+                border: "1px solid #716868",
                 padding: "10px",
                 marginBottom: "10px",
                 width: "50%",

@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./Home";
 import App from "./App.jsx";
 import CartPage from "./Cart.jsx";
 import NotFound from "./NotFound.jsx";
@@ -18,6 +19,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/login",
+    element: <App />,
+  },
+  {
+    path:'/home',
+    element:<Home/>
   },
   {
     path: "/cartpage",

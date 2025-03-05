@@ -1,39 +1,85 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk to fetch products
-export const fetchProducts = createAsyncThunk(
-  "productsList/fetchProducts", //(action type)
-  //callback (payload creators)
-  async () => {
-    const response = await fetch("https://api.escuelajs.co/api/v1/products");
-    const data = await response.json();
-    return data;
+// Login Page
+export const login = createAsyncThunk(
+  "auth/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        "https://api.escuelajs.co/api/v1/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error("Invalid Username or Password");
+      }
+
+      localStorage.setItem(
+        "UserDatas",
+        JSON.stringify({ username: email, token: data.access_token })
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
-//Display particular product when click!!
+
+// Fetch products(Home Page)
+export const fetchProducts = createAsyncThunk(
+  "productsList/fetchProducts",
+  async () => {
+    const response = await fetch("https://api.escuelajs.co/api/v1/products");
+    return response.json();
+  }
+);
+
+// Fetch single product(View Single Product)
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (id) => {
     const response = await fetch(
       `https://api.escuelajs.co/api/v1/products/${id}`
     );
-    const data = await response.json();
-    return data;
+    return response.json();
   }
 );
 
 const productSlice = createSlice({
   name: "productsList",
   initialState: {
+    user: null,
+    token: null,
+    isLoading: false,
     products: [],
-    product: null, //store sigle product
-    status: "save",
-    error: "",
+    product: "",
+    status: "idle",
+    error: null,
   },
-  reducers: {}, //generate action creators
-  //options object
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.token = action.payload.access_token;
+        state.user = action.payload;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       .addCase(fetchProducts.pending, (state) => {
         state.status = "loading";
       })
@@ -58,5 +104,4 @@ const productSlice = createSlice({
       });
   },
 });
-
 export default productSlice.reducer;

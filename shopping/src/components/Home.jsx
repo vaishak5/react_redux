@@ -14,10 +14,8 @@ const Home = () => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    if (status === "save") {
-      dispatch(fetchProducts());
-    }
-  }, [dispatch, status]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cartSet")) || [];
@@ -27,30 +25,13 @@ const Home = () => {
   const handleCart = (event, product) => {
     event.stopPropagation();
     const existingItem = cart.find((item) => item.id === product.id);
-    {
-      /**find:returns value of first element in the array
-       * item.id->comes from cart arr contains all the products currently in the shopping cart.
-       * product.id: Comes from the product passed as arg to handleCart.
-       * This is the new product the user is trying to add the cart.
-       */
-    }
-    let updatedCart;
-
-    if (existingItem) {
-      updatedCart = cart.map((item) =>
-        item.id === product.id
-          ? { ...item, cartTotalQuantity: item.cartTotalQuantity + 1 }
-          : item
-      );
-      {
-        /**1)looping the cart array 2)if the product id matches the increases cart quantity 3)otherwise return item  */
-      }
-    } else {
-      updatedCart = [...cart, { ...product, cartTotalQuantity: 1 }];
-    }
-    {
-      /**1)creates a new arr with add product  */
-    }
+    let updatedCart = existingItem
+      ? cart.map((item) =>
+          item.id === product.id
+            ? { ...item, cartTotalQuantity: item.cartTotalQuantity + 1 }
+            : item
+        )
+      : [...cart, { ...product, cartTotalQuantity: 1 }];
 
     setCart(updatedCart);
     localStorage.setItem("cartSet", JSON.stringify(updatedCart));
@@ -72,7 +53,7 @@ const Home = () => {
       {status === "failed" && <p>Error: {error}</p>}
 
       <div
-        className="products-grid"
+        className="products-grid py-2 px-1"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
@@ -85,10 +66,10 @@ const Home = () => {
             key={product.id}
             className="product-card"
             onClick={() => navigate(`/product/${product.id}`)}
-            style={{ border: "1px solid #ddd", padding: "10px" }}
+            style={{ border: "1px solid #716868", padding: "10px" }}
           >
             <img
-              src={product.images}
+              src={product.images?.[0] || "fallback-image.jpg"}
               alt={product.title}
               className="product-image"
               width={100}
@@ -103,27 +84,25 @@ const Home = () => {
               <p style={{ color: "#878787" }}>Description:</p>
               <p>{product.description}</p>
             </span>
-
             <div className="d-flex flex-column">
               <div className="d-flex align-items-center gap-2">
                 <p style={{ color: "#878787", marginBottom: "0px" }}>
                   Category:
                 </p>
-                <span className="d-flex " style={{}}>
-                  {product.category.name}
-                </span>
+                <span className="d-flex">{product.category.name}</span>
               </div>
               <span>
                 <img
                   src={product.category.image}
                   style={{ width: "100px", borderRadius: "50px" }}
-                ></img>
+                  alt="category"
+                />
               </span>
             </div>
             <span className="d-flex justify-content-center">
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={(event) => handleCart(event, product)}
               >
                 Add To Cart
@@ -137,11 +116,3 @@ const Home = () => {
 };
 
 export default Home;
-{
-  /**Handle Add to Cart
-  Checks if the product is already in the cart.
-  If yes, increments the quantity.
-  If no, adds it with quantity 1.
-  Updates localStorage and state.
-  Shows toast notification and redirects to /cartpage. */
-}

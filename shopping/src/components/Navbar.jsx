@@ -19,6 +19,11 @@ const Navbar = () => {
     items->curr obj in array
      */
   }
+  function handleLogout() {
+    /* localStorage.removeItem("userToken"); */
+    navigate("/login");
+    
+  }
 
   return (
     <div>
@@ -33,32 +38,37 @@ const Navbar = () => {
       >
         <h2>Online Shop</h2>
         <div className="d-flex align-items-center gap-3">
-          <span
-            onClick={() => navigate("/cartpage")}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-            }}
-          >
-            <IoBagCheckSharp title="cart" />
+          <div className="d-flex align-items-center gap-3">
             <span
-              className="count"
+              onClick={() => navigate("/cartpage")}
               style={{
-                border: "1px solid white",
-                paddingRight: "7px",
-                paddingLeft: "6px",
-                paddingTop: "2px",
-                paddingBottom: "2px",
-                borderRadius: "50px",
-                background: "yellow",
-                color: "black",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
               }}
             >
-              {cartCount}
+              <IoBagCheckSharp title="cart" />
+              <span
+                className="count"
+                style={{
+                  border: "1px solid white",
+                  paddingRight: "7px",
+                  paddingLeft: "6px",
+                  paddingTop: "2px",
+                  paddingBottom: "2px",
+                  borderRadius: "50px",
+                  background: "yellow",
+                  color: "black",
+                }}
+              >
+                {cartCount}
+              </span>
             </span>
-          </span>
+          </div>
+          <button type="button" class="btn btn-danger" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </nav>
     </div>
