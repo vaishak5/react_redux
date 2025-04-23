@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { IoBagCheckSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
-const Navbar = () => {
+import { logout } from "../Slice/slice";
+import { useDispatch } from "react-redux";
+import { AiFillControl } from "react-icons/ai";
+const Navbar = ({ searchTerm, handleSearch, toggleFilters }) => {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cartSet")) || [];
@@ -20,9 +23,10 @@ const Navbar = () => {
      */
   }
   function handleLogout() {
-    /* localStorage.removeItem("userToken"); */
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    dispatch(logout());
     navigate("/login");
-    
   }
 
   return (
@@ -37,6 +41,28 @@ const Navbar = () => {
         }}
       >
         <h2>Online Shop</h2>
+        <div className="serachProds">
+          <div className="serachBar">
+            <input
+              type="text"
+              class="form-control"
+             
+              placeholder="Search Products"
+              aria-describedby="basic-addon1"
+              id="searchIp"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+
+          <span
+            style={{ cursor: "pointer" }}
+            title="Filter Products"
+            onClick={toggleFilters}
+          >
+            <AiFillControl />
+          </span>
+        </div>
         <div className="d-flex align-items-center gap-3">
           <div className="d-flex align-items-center gap-3">
             <span

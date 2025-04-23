@@ -1,23 +1,24 @@
-body{
-    background-color: #d8e4f0;
-}
-.formSet{
-    background-color: white;
+.formSet {
+    background-color: rgb(205, 225, 250);
     padding: 50px;
     border-radius: 25px;
+    border: 1px solid #ddd;
 }
-.inputs{
-    background-color: rgb(205, 225, 250);
+
+.inputs {
+    background-color: white;
     border: none;
     outline: none;
- 
+
     padding: 10px;
 }
-.user{
+
+.user {
     text-align: center;
-    color: rgb(7, 55, 100) 
+    color: rgb(7, 55, 100)
 }
-.error{
+
+.error {
     color: red;
     text-align: center;
     font-size: 14px;
@@ -25,7 +26,50 @@ body{
     padding: 15px;
     margin-bottom: 0px;
 }
-.welcome{
+
+.welcome {
     text-align: center;
     color: rgb(70, 63, 63);
+}
+
+.serachProds {
+    width: 50%;
+    display: flex;
+    border: 1px solid white;
+    background: white;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#searchIp {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+#searchIp:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.serachProds span {
+    color: black;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.serachBar {
+    width: 100%;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.serachProdsAdmin{
+    width: 50%;
+    display: flex;
+    border: 1px solid black;
+    background: white;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
 }
