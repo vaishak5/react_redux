@@ -8,20 +8,39 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./Home";
 import App from "./App.jsx";
 import CartPage from "./Cart.jsx";
 import NotFound from "./NotFound.jsx";
 import Store from "../Store/store.jsx";
 import ViewProduct from "./viewProduct.jsx";
-
+import AdminPage from "./AdminPage.jsx";
+import AddProduct from "./AddProduct.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/login",
     element: <App />,
   },
   {
+    path: "/home",
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/cartpage",
-    element: <CartPage />,
+    element: (
+      <ProtectedRoute>
+        <CartPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "*",
@@ -33,7 +52,31 @@ const router = createBrowserRouter([
   },
   {
     path: "/product/:id",
-    element: <ViewProduct />,
+    element: (
+      <ProtectedRoute>
+        <ViewProduct />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/admin",
+    element: <App />,
+  },
+  {
+    path: "/adminPage",
+    element: (
+      <ProtectedRoute>
+        <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/addProduct",
+    element: (
+      <ProtectedRoute>
+        <AddProduct />
+      </ProtectedRoute>
+    ),
   },
 ]);
 

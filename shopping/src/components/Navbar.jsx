@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { IoBagCheckSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-
-const Navbar = () => {
+import { logout } from "../Slice/slice";
+import { useDispatch } from "react-redux";
+import { AiFillControl } from "react-icons/ai";
+const Navbar = ({ searchTerm, handleSearch, toggleFilters }) => {
   const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cartSet")) || [];
@@ -19,6 +22,12 @@ const Navbar = () => {
     items->curr obj in array
      */
   }
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    dispatch(logout());
+    navigate("/login");
+  }
 
   return (
     <div>
@@ -32,33 +41,60 @@ const Navbar = () => {
         }}
       >
         <h2>Online Shop</h2>
-        <div className="d-flex align-items-center gap-3">
+        <div className="serachProds">
+          <div className="serachBar">
+            <input
+              type="text"
+              class="form-control"
+             
+              placeholder="Search Products"
+              aria-describedby="basic-addon1"
+              id="searchIp"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+
           <span
-            onClick={() => navigate("/cartpage")}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-            }}
+            style={{ cursor: "pointer" }}
+            title="Filter Products"
+            onClick={toggleFilters}
           >
-            <IoBagCheckSharp title="cart" />
+            <AiFillControl />
+          </span>
+        </div>
+        <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3">
             <span
-              className="count"
+              onClick={() => navigate("/cartpage")}
               style={{
-                border: "1px solid white",
-                paddingRight: "7px",
-                paddingLeft: "6px",
-                paddingTop: "2px",
-                paddingBottom: "2px",
-                borderRadius: "50px",
-                background: "yellow",
-                color: "black",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
               }}
             >
-              {cartCount}
+              <IoBagCheckSharp title="cart" />
+              <span
+                className="count"
+                style={{
+                  border: "1px solid white",
+                  paddingRight: "7px",
+                  paddingLeft: "6px",
+                  paddingTop: "2px",
+                  paddingBottom: "2px",
+                  borderRadius: "50px",
+                  background: "yellow",
+                  color: "black",
+                }}
+              >
+                {cartCount}
+              </span>
             </span>
-          </span>
+          </div>
+          <button type="button" class="btn btn-danger" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </nav>
     </div>
