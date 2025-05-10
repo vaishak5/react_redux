@@ -1,10 +1,10 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./Home";
+import Login from './Login'
 const App = () => {
   return (
     <div>
-      <Home />
+      <Login />
     </div>
   );
 };
